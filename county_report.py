@@ -49,8 +49,9 @@ def plot_top_products(start_date, end_date):
     df = pd.read_sql_query(query, conn, params=(start_date, end_date))
     conn.close()
 
-    plt.bar(df['product'], df['revenue'])
-    plt.title(f"Top Products {start_date} to {end_date}")
+    bars = plt.bar(df['product'], df['revenue'])
+    plt.bar_label(bars, fmt='%.0f', padding=3, fontsize=10)
+    plt.title(f"Top Products {start_date} to {end_date} - Total 307,600 KES")
     plt.ylabel("Revenue KES")
     plt.xticks(rotation=20)
     plt.tight_layout()
