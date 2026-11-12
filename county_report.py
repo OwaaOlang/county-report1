@@ -19,10 +19,6 @@ def get_county_report(county, start_date, end_date):
         print(f"No results for {county} from {start_date} to {end_date}")
     return df
 
-print(get_county_report("Nairobi", "2024-01-01", "2024-01-31"))
-print(get_county_report("Kisumu", "2024-02-01", "2024-02-29"))
-print(get_county_report("Mombasa", "2024-01-01", "2024-02-29"))
-print(get_county_report("Nairobi", "2024-03-01", "2024-03-31"))
 
 import matplotlib.pyplot as plt
 
@@ -49,15 +45,42 @@ def plot_top_products(start_date, end_date):
     df = pd.read_sql_query(query, conn, params=(start_date, end_date))
     conn.close()
 
-    bars = plt.bar(df['product'], df['revenue'])
-    plt.bar_label(bars, fmt='%.0f', padding=3, fontsize=10)
-    plt.title(f"Top Products {start_date} to {end_date} - Total 307,600 KES")
-    plt.ylabel("Revenue KES")
-    plt.xticks(rotation=20)
-    plt.tight_layout()
-    plt.savefig("top_products.png", dpi=150)
-    plt.show()
-    print("Saved as top_products.png")
+def list_counties():
+    conn = sqlite3.connect("sales.db")
+    df = pd.read_sql("SELECT DISTINCT county FROM orders", conn)
+    conn.close()
+    return df['county'].tolist()
 
-print("Total Jan-Feb:", get_total_revenue("2024-01-01", "2024-02-29"))
-plot_top_products("2024-01-01", "2024-02-29")
+def make_chart(df, county):
+    import matplotlib.pyplot as plt
+    plt.figure(figsize=(10, 6))
+    plt.bar(df['product'], df['total_revenue_kes'])
+    plt.title(f"Revenue by Product - {county}")
+    plt.xlabel("Product")
+    plt.ylabel("Total Revenue (KES)")
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+    plt.savefig(f"Chart_{county}.png")
+    plt.show()
+
+def export_county_report_to_excel(county, start, end, filename):
+    df = get_county_report(county, start, end)
+    df.to_excel(filename, index=False)
+    print(f"Saved Excel as {filename}")
+
+
+if __name__ == "__main__":
+    print("Available counties:", list_counties())
+    county = input("Enter county from list above: ")
+    start = input("Enter start date (YYYY-MM-DD): ")
+    end = input("Enter end date (YYYY-MM-DD): ")
+
+    df = get_county_report(county, start, end)
+
+    if df.empty:
+        print(f"No results for {county} from {start} to {end}")
+    else:
+        print(df)
+        make_chart(df, county)
+        export_county_report_to_excel(county, start, end, f"County_Report_{county}.xlsx")
+        print("Done! Check your folder for chart and Excel.")
