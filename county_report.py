@@ -65,8 +65,22 @@ def make_chart(df, county):
 
 def export_county_report_to_excel(county, start, end, filename):
     df = get_county_report(county, start, end)
+
+    # Create TOTAL row
+    total_row = {
+        'product': 'TOTAL',
+        'total_orders': df['total_orders'].sum(),
+        'total_quantity': df['total_quantity'].sum(),
+        'total_revenue_kes': df['total_revenue_kes'].sum()
+    }
+
+    # Add TOTAL row to the bottom
+    import pandas as pd
+    df = pd.concat([df, pd.DataFrame([total_row])], ignore_index=True)
+
     df.to_excel(filename, index=False)
-    print(f"Saved Excel as {filename}")
+    print(f"Saved Excel as {filename} with TOTAL row")
+
 
 
 if __name__ == "__main__":
