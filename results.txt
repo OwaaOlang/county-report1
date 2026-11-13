@@ -1,0 +1,24 @@
+
+=== Q1: % Delivered / Pending / Cancelled per County ===
+  county  total_orders  pct_completed  pct_pending  pct_cancelled
+ Eldoret             1          100.0          0.0            0.0
+  Kisumu             3          100.0          0.0            0.0
+Machakos             1            0.0        100.0            0.0
+ Mombasa             2           50.0         50.0            0.0
+ Nairobi             2           50.0         50.0            0.0
+  Nakuru             1            0.0        100.0            0.0
+
+=== Q2: Customers with 2 consecutive months growth (LAG) ===
+Empty DataFrame
+Columns: [customer]
+Index: []
+Total: 0 customers
+
+=== Q3: Running Total Revenue by Date ===
+ order_day  daily_revenue  running_total_revenue
+2024-01-05         6000.0                 6000.0
+2024-01-08        25500.0                31500.0
+2024-01-15       128000.0               159500.0
+2024-02-05        17250.0               176750.0
+2024-02-12        48000.0               224750.0
+2024-02-15        12000.0               236750.0

@@ -19,3 +19,14 @@ and returns an empty DataFrame.
 Manual Monday report = ~1hr/week typing SQL = 52 hrs/year.
 Automated function = 1 run, same output, no typos, no SQL injection risk because it uses `?` placeholders.
 Value to client: saves time + prevents wrong totals from manual copy-paste.
+
+## Total Revenue
+get_total_revenue("2024-01-01", "2024-02-29") -> 307600.0
+plot_top_products() shows Rice 25kg as top seller.
+
+## Findings
+
+- Q1: Eldoret & Kisumu 100% delivered, Machakos & Nakuru 100% pending - need delivery follow-up
+- Q2: 0 customers with 2 consecutive months growth (only 2 months of data, needs 3 months to qualify)
+- Q3: Running total revenue reached 236,750 by 2024-02-15
+- Status mapping: delivered = completed in this DB, no cancelled orders
